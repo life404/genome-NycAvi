@@ -1,0 +1,26 @@
+Bootstrap: docker
+From:continuumio/miniconda3
+
+%files
+	/home/panda2bat/Avivorous_bat/script/TOGA /TOGA
+%post
+	apt-get update && apt-get install -y git build-essential rsync
+	conda install nextflow==22.10.6 -c bioconda
+	#git clone https://ghproxy.com/https://github.com/hillerlab/TOGA.git
+	cd TOGA && python3 -m pip install -r requirements.txt && ./configure.sh && mkdir nextflow_logs && mkdir micro_test_out
+
+%environment
+	export PATH=$PATH:/TOGA
+
+#%test
+#	cd /TOGA && bash ./run_test.sh micro
+
+%runscript
+	/TOGA/toga.py $@
+
+%labels
+	Auther: panda2bat
+	Version: latest
+	The singularity config of toga latest.
+
+
