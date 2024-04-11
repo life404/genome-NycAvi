@@ -6,8 +6,8 @@ from pathlib import Path
 def make_parse():
     parse = argparse.ArgumentParser()
     parse.add_argument("--initial", dest = "initial", help = "the initial assembly fasta from wtdbg2")
-    parse.add_argument("--inl", dest = "lgs_path", help = "the input path for directory, which contains long reads")
-    parse.add_argument("--ins", dest = "sgs_path", help = "the input path for directory, which contains short reads")
+    parse.add_argument("--inl", dest = "lgs_path", help = "the input path for directory, which contains PacBio subread")
+    parse.add_argument("--ins", dest = "sgs_path", help = "the input path for directory, which contains Illumina short reads")
     parse.add_argument("--ou", dest = "ou_path", help = "the output directory of nextPolish")
     args = parse.parse_args()
     return(args)

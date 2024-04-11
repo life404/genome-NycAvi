@@ -22,7 +22,7 @@ def make_parse():
     parse.add_argument("--output", "-o", dest = "ou_path", type = str, help = "The path of output directory")
     parse.add_argument("--tprefix", dest = "tprefix", required=False, type = str, help = "The name of target")
     parse.add_argument("--qprefix", dest = "qprefix", required=False, type = str, help = "The name of query")
-    parse.add_argument("--step", dest = "step", type = str, help = "The steps of program, the step 1:lastz alignment;")
+#    parse.add_argument("--step", dest = "step", type = str, help = "The steps of program, the step 1:lastz alignment;")
     parse.add_argument("--verbose", dest = "verbose", type = bool, default = True, choices=[True, False], help = "Print all (True, default) information of programe or not (False)")
     parse.add_argument("--threads", dest = "threads", type = int, default = 5, help = "The nubmer of threads")
     args = parse.parse_args()
@@ -209,7 +209,7 @@ def main():
     else:
         qprefix = args.qprefix
     ou_path = args.ou_path
-    step = args.step
+#    step = args.step
     verbose = args.verbose
     threads = args.threads
     

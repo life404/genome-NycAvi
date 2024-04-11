@@ -12,7 +12,7 @@ def make_parse():
     parse.add_argument('-o', dest = 'ou_path', help = 'The path of output directory')
     parse.add_argument('--cds', dest = 'cds', help = 'The cds fasta of its close relative specie')
     parse.add_argument('--curatedlib', dest = 'curated', help = 'The curated lib file')
-    parse.add_argument('--step', dest = 'step', type = int, help = 'The steps of program. 1:EDTA; 2:softmask;')
+    parse.add_argument('--step', dest = 'step', type = int, help = 'Each number corresponds to a specific step, 1:EDTA; 2:softmask;')
     args = parse.parse_args()
     return(args)
 

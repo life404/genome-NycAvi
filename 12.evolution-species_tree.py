@@ -200,40 +200,40 @@ def concatenated2(path, output):
     output_open.close()
     return output_file
     
-def divergence_time(output, tree):
-    root_path = Path(output)
-    
-    output = root_path / 'mcmctree'
-    output.mkdir(exist_ok=True, parents=True)
-    
-    mcmc_input = output / 'input'
-    mcmc_input.mkdir(exist_ok=True, parents=True)
-    
-    # generate 3rd sites file
-    pal2nal_path = root_path / 'pal2nal'
-    concatenated_fa = concatenated2(pal2nal_path, mcmc_input)
-    # copy tree file into input directory of MCMC
-    
-    # run baseml first
-    baseml_tmp = open(Path(__file__).absolute().parent / '.mcmctree_1_baseml.ctl', 'r').read()
-    baseml_tmp = baseml_tmp.replace('$seqfile$', str(concatenated_fa.absolute()))
-    baseml_tmp = baseml_tmp.replace('$treefile$', str(Path(tree).absolute()))
-    baseml_path = output / 'baseml'
-    baseml_path.mkdir(exist_ok=True, parents=True)
-    config_path = open((baseml_path / 'baseml.ctl'), 'w')
-    config_path.writelines(baseml_tmp)
-    config_path.close()
-    
-    baseml_cmd = f'/home/panda2bat/TOOLS/paml4.9j/bin/baseml'
-    check = cmd_run_multiple(baseml_cmd, ou_path=baseml_path, check='baseml', verbose=True)
-    
+#def divergence_time(output, tree):
+#    root_path = Path(output)
+#    
+#    output = root_path / 'mcmctree'
+#    output.mkdir(exist_ok=True, parents=True)
+#    
+#    mcmc_input = output / 'input'
+#    mcmc_input.mkdir(exist_ok=True, parents=True)
+#    
+#    # generate 3rd sites file
+#    pal2nal_path = root_path / 'pal2nal'
+#    concatenated_fa = concatenated2(pal2nal_path, mcmc_input)
+#    # copy tree file into input directory of MCMC
+#    
+#    # run baseml first
+#    baseml_tmp = open(Path(__file__).absolute().parent / '.mcmctree_1_baseml.ctl', 'r').read()
+#    baseml_tmp = baseml_tmp.replace('$seqfile$', str(concatenated_fa.absolute()))
+#    baseml_tmp = baseml_tmp.replace('$treefile$', str(Path(tree).absolute()))
+#    baseml_path = output / 'baseml'
+#    baseml_path.mkdir(exist_ok=True, parents=True)
+#    config_path = open((baseml_path / 'baseml.ctl'), 'w')
+#    config_path.writelines(baseml_tmp)
+#    config_path.close()
+#    
+#    baseml_cmd = f'/home/panda2bat/TOOLS/paml4.9j/bin/baseml'
+#    check = cmd_run_multiple(baseml_cmd, ou_path=baseml_path, check='baseml', verbose=True)
+#    
     
 def make_parse():
     parse = argparse.ArgumentParser()
     parse.add_argument('-i', '--input', dest = 'input', type = str, help = 'The input directory')
     parse.add_argument('-o', '--output', dest = 'output', type = str, help = 'The output directory')
     parse.add_argument('--threads', dest = 'threads', type = int, help = 'The number of threads')
-    parse.add_argument('--step', dest = 'step', type = int, help = 'The step of program')
+    parse.add_argument('--step', dest = 'step', type = int, help = 'Each number corresponds to a specific step, 1) prank MSA; 2) pal2nal; 3) iqtree with every gene; 4) ASTRALIII; 5) estimated branch length with concatenated genes')
     parse.add_argument('-m', dest = 'mrna', type = str, help = 'The directory contains corresponding mRNA fasta files')
     parse.add_argument('-t', dest='tree', type=str, help='The labeled tree file used in mcmctree')
     args = parse.parse_args()
@@ -254,8 +254,8 @@ def main():
         ASTRAL(args.output)
     elif step==5:
         estimate_length(args.output)
-    elif step==6:
-        divergence_time(args.output, args.tree)
+#    elif step==6:
+#        divergence_time(args.output, args.tree)
     else:
         print("PLEASE INPUT THE CORRECT STEP NUM")
 

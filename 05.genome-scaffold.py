@@ -11,7 +11,7 @@ def make_parse():
     parse.add_argument("--hic_path", dest = "hicpath",type = str, default = '/home/panda2bat/Avivorous_bat/input/HiC/N.aviator', help = "The path of directory, which contains all hic fastq files")
     parse.add_argument("--ou_path", dest = "oupath", type = str, help = 'The path of output directory')
     parse.add_argument("--step", dest = "step", type = int, help = 'The step of programe, 1:chromap_index; 2:chromap_alignment; 3:yash_scaffold; 4:yash2juicer; 5:manual_curation_juicer')
-    parse.add_argument("--review", dest='review', type='str', help='The review results of juicer, only be used in second round of 3D-DNA')
+    parse.add_argument("--review", dest='review', type=str, help='The review results of juicer, only be used in second round of 3D-DNA')
     args = parse.parse_args()
     return(args)
 

@@ -25,7 +25,7 @@ def make_parse():
     parse.add_argument(
         "--ou",
         type=str,
-        help="The ouput path, if don't set, the output path is input path",
+        help="The ouput path, If the output path is not set, it defaults to the input path.",
         dest="ouput"
     )
     parse.add_argument("--na", type=str, help="The prefix of output files", dest="name")

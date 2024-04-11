@@ -27,7 +27,7 @@ def make_parse():
         "--step",
         dest="step",
         type=int,
-        help="the different step of programe, 1 means nextDenovo; 2 means kbmap of wtdbg2; 3 means wtdbg of wtdbg2"
+        help="the different step in process, 1: nextDenovo; 2: kbm2 in wtdbg2; 3: wtdbg in wtdbg2; 4 produce the best assembly"
     )
     args = parse.parse_args()
     return args
@@ -106,27 +106,51 @@ def wtdbg_command2(ou_path, gsize):
             exit(1)
 
     wtdbg_run_lst = []
-    for nodelen in [1536, 2048, 2304, 2560, 1024]:
-        for s in [0.5]:
-            for alndovetail in [-1, 4608, 9216, 256]:
-                for L in [5000, 0]:
-                    dir_path = (
-                    Path(ou_path)
-                        / f"ND0.25.NL{nodelen}.NM400.S{s}.E3.ALN{alndovetail}.L{L}"
-                    )
-                    dir_path.mkdir(exist_ok=True, parents=True)
-                    
-                    out_path = (
-                        Path(ou_path)
-                        / f"ND0.25.NL{nodelen}.NM400.S{s}.E3.ALN{alndovetail}.L{L}/wtdbg"
-                    )
-                    log_path = (
-                    Path(ou_path)
-                        / f"ND0.25.NL{nodelen}.NM400.S{s}.E3.ALN{alndovetail}.L{L}/wtdbg.log" 
-                    )
-                    wtdbg_run_lst.append(
-                        f'/home/panda2bat/TOOLS/wtdbg-2.5_x64_linux/wtdbg2 -i {kmp_fasta_list} --load-alignments {merge_kmp_path} -g {gsize} -t 128 -K 0.05 -A --node-drop 0.25 --node-len {nodelen} --node-max 400 -s {s} -e 3 -L {L} --rescue-low-cov-edges --no-read-length-sort --aln-dovetail {alndovetail} -fo {out_path} &> {log_path} \n'
-                    )
+
+    '''
+    Modified parameters used in wtdbg2 assembly process
+    '''
+    p_nodelen = [1536, 2048, 2304, 2560, 1024]
+    p_s = [0.5]
+    p_alndovetail = [-1, 4608, 9216, 256]
+    p_L = [5000, 0]
+    
+    for nodelen,s,alndovetail,L in zip(p_nodelen, p_s, p_alndovetail, p_L):
+        dir_path = (
+            Path(ou_path) / f"ND0.25.NL{nodelen}.NM400.S{s}.E3.ALN{alndovetail}.L{L}"
+        )
+        dir_path.mkdir(exist_ok=True, parents=True)
+            
+        out_path = (
+            Path(ou_path) / f"ND0.25.NL{nodelen}.NM400.S{s}.E3.ALN{alndovetail}.L{L}/wtdbg"
+        )
+        log_path = (
+            Path(ou_path) / f"ND0.25.NL{nodelen}.NM400.S{s}.E3.ALN{alndovetail}.L{L}/wtdbg.log" 
+        )
+        wtdbg_run_lst.append(
+            f'/home/panda2bat/TOOLS/wtdbg-2.5_x64_linux/wtdbg2 -i {kmp_fasta_list} --load-alignments {merge_kmp_path} -g {gsize} -t 128 -K 0.05 -A --node-drop 0.25 --node-len {nodelen} --node-max 400 -s {s} -e 3 -L {L} --rescue-low-cov-edges --no-read-length-sort --aln-dovetail {alndovetail} -fo {out_path} &> {log_path} \n'
+        )
+#    for nodelen in [1536, 2048, 2304, 2560, 1024]:
+#        for s in [0.5]:
+#            for alndovetail in [-1, 4608, 9216, 256]:
+#                for L in [5000, 0]:
+#                    dir_path = (
+#                    Path(ou_path)
+#                        / f"ND0.25.NL{nodelen}.NM400.S{s}.E3.ALN{alndovetail}.L{L}"
+#                    )
+#                    dir_path.mkdir(exist_ok=True, parents=True)
+#                    
+#                    out_path = (
+#                        Path(ou_path)
+#                        / f"ND0.25.NL{nodelen}.NM400.S{s}.E3.ALN{alndovetail}.L{L}/wtdbg"
+#                    )
+#                    log_path = (
+#                    Path(ou_path)
+#                        / f"ND0.25.NL{nodelen}.NM400.S{s}.E3.ALN{alndovetail}.L{L}/wtdbg.log" 
+#                    )
+#                    wtdbg_run_lst.append(
+#                        f'/home/panda2bat/TOOLS/wtdbg-2.5_x64_linux/wtdbg2 -i {kmp_fasta_list} --load-alignments {merge_kmp_path} -g {gsize} -t 128 -K 0.05 -A --node-drop 0.25 --node-len {nodelen} --node-max 400 -s {s} -e 3 -L {L} --rescue-low-cov-edges --no-read-length-sort --aln-dovetail {alndovetail} -fo {out_path} &> {log_path} \n'
+#                    )
 
     wtdbg_command = open(
         Path(__file__).parent / "03_genome-assembly-wtdbg2-wtdbg.jobs", "w"

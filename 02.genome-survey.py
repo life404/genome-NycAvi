@@ -10,7 +10,7 @@ def make_parse():
     parse.add_argument("--in", dest = "input", type = str, help = "the path of the directory, which contains all fastq files")
     parse.add_argument("--ou", dest = "output", type = str, help = "the path of output directory of resutls")
     parse.add_argument("--na", dest = "name", type = str, help = "the prefix of results files")
-    parse.add_argument("--range", dest = "krange", type = str, help = "the range of kmer sizes, the format of kmer range is start:end:seq, the programe will walk all kmer values.\nThe default value of kmer range is 21 to 21, the seq is 1", default = "21:21:1")
+    parse.add_argument("--range", dest = "krange", type = str, help = "The program iterates through a range of k-mer sizes specified as start:end:step, such as 10:21:1 The default k-mer range spans from 10 to 21 with a step size of 1.", default = "10:21:1")
     parse.add_argument("--jpath", dest = "jpath", type = str, help = "The absoult path of jellyfish programe", default = "/home/panda2bat/TOOLS/miniconda3/bin/jellyfish")
     args = parse.parse_args()
     return args

@@ -14,7 +14,7 @@ def make_parse():
     parse.add_argument('-i', dest = 'input', type = str, help = 'The input directory')
     parse.add_argument('-o', dest = 'output', type = str, help = 'The output directory')
     parse.add_argument('-m', dest = 'mrna', type = str, help = 'The corresponding mRNA directory')
-    parse.add_argument('--step', dest = 'step', type = int, help = 'The step of program: 1:inparanoid; 2: parse the results of inparanoid')
+    parse.add_argument('--step', dest = 'step', type = int, help = 'Each number corresponds to a specific step, 1:inparanoid; 2: parse the results of inparanoid')
     args = parse.parse_args()
     return(args)
 

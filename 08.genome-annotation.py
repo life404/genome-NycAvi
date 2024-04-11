@@ -38,7 +38,7 @@ def make_parse():
         type=str,
         default="false",
         choices=["false", "RF", "FR"],
-        help="The BOOL value of SS_lib_type parameter in Trintiy",
+        help="The BOOL value of `--SS_lib_type` parameter in Trintiy",
     )
     parse.add_argument(
         "--dbname",
@@ -58,7 +58,7 @@ def make_parse():
         "--step",
         dest="step",
         type=int,
-        help="The step of annotation. 1:miniprot; 2:hisat2; 3:stringtie; 4:trinity+pasa; 5:braker; 6:EvidenceModeler; 7:PASA upate; 8:functional annotation"
+        help="The step in annotation process. 1:miniprot; 2:hisat2; 3:stringtie; 4:trinity+pasa; 5:braker; 6:EvidenceModeler; 7:PASA upate; 8:functional annotation"
     )
     parse.add_argument(
         "--verbose",
